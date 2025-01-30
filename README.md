@@ -3,3 +3,4 @@
 <br/>Jennifer Wang
 <br/>Dricmoy Bhattacharjee
 <br/>Fairuz Zarif
+<br/>Jaden Huang
