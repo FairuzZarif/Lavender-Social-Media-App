@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Distributed Social Media</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/index_page.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/profile/">My Profile</a></li>
+                <li><a href="/posts/">My Posts</a></li>
+                <li><a href="/stream/">Stream</a></li>
+                <li><a href="/follow/">Followed Authors</a></li>
+                <li><a href="/admin/">Admin Dashboard</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section id="intro">
+            <h1>Welcome to Distributed Social Media!</h1>
+            <p>This is a platform where authors can post content, share with followers, and manage their online identity.</p>
+        </section>
+
+        <section id="about">
+            <h2>Features</h2>
+            <ul>
+                <li>Create and manage posts with text, images, and videos.</li>
+                <li>Follow and interact with local and remote authors.</li>
+                <li>View and share public posts in your stream.</li>
+                <li>Control the visibility of your posts (Public, Unlisted, Friends-only).</li>
+                <li>Manage your profile and GitHub activity to automatically post updates.</li>
+            </ul>
+        </section>
+
+        <section id="create-post">
+            <h2>Create a New Post</h2>
+            <form action="/create-post" method="POST">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required>
+
+                <label for="content">Content:</label>
+                <textarea id="content" name="content" required></textarea>
+
+                <label for="visibility">Visibility:</label>
+                <select id="visibility" name="visibility">
+                    <option value="public">Public</option>
+                    <option value="unlisted">Unlisted</option>
+                    <option value="friends-only">Friends-only</option>
+                </select>
+
+                <button type="submit">Post</button>
+            </form>
+        </section>
+
+        <section id="posts">
+            <h2>Your Recent Posts</h2>
+            <ul id="post-list">
+                <!-- List of posts will be dynamically added here via the backend -->
+                <li>No posts available yet. Start by creating one!</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Distributed Social Media - All rights reserved.</p>
+    </footer>
+
+    <script src="/static/scripts.js"></script> <!-- Link to JavaScript for frontend logic -->
+</body>
+</html>
