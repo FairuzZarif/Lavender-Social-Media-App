@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social App</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Welcome to SocialApp!</h1>
+    </header>
+
+    <main>
+        <h2>Posts</h2>
+        <ul id="post-list">
+            {% for post in posts %}
+                <li>{{ post.title }}: {{ post.content }}</li>
+            {% endfor %}
+        </ul>
+    </main>
+
+    <footer>
+        <p>© 2025 SocialApp</p>
+    </footer>
+
+    <script src="{% static 'js/scripts.js' %}"></script>
+</body>
+</html>
