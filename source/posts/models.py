@@ -27,3 +27,4 @@ class PostModel(models.Model):
     content = models.TextField()
     published = models.DateTimeField(auto_now_add = True)
     visibility = models.CharField(max_length = 64, choices = availble_visibility)
+    

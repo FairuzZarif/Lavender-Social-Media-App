@@ -31,7 +31,7 @@ CSRF_COOKIE_HTTPONLY = False  # Allows JS to read the CSRF token
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.environ.get("DEBUG", default=True))
 
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "*").split(" ")
+ALLOWED_HOSTS = ['*']
 DJANGO_API_URL = os.getenv("http://localhost:8000", "http://127.0.0.1:8000")
 
 # Enable secure cookies

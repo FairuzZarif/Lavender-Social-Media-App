@@ -239,11 +239,25 @@ footer {
     flex-direction: column;
 }
 
+#id-submit-button {
+    font-family: 'Segoe UI', sans-serif;
+    width: 100%;
+    padding: 10px;
+    background-color: #5e5c5c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
 .close {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
+    max-width: 20px;
 }
 
 .close:hover,

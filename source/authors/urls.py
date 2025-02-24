@@ -25,5 +25,4 @@ urlpatterns = [
         views.StreamPostView.as_view(),
         name = 'api-streamPost-author_id-seq_num'
     ),
-
 ]
