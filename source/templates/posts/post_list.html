@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ author.display_name }} 的 Posts</title>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js"></script>
+    {% load markdownify %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .post {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .post-title {
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        .post-content {
+            margin-top: 10px;
+        }
+
+        .visibility {
+            color: gray;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>{{ author.display_name }} 's Posts</h1>
+    {% for post in posts %}
+    <div class="post">
+        <div class="post-title">{{ post.title }}</div>
+        <div class="visibility">Visibility: {{ post.visibility }}</div>
+        <div class="post-content">{{ post.content|markdownify }}</div>
+        <div class="published-date">{{ post.published }}</div>
+    </div>
+    {% empty %}
+    <p>No published posts</p>
+    {% endfor %}
+</body>
+
+</html>

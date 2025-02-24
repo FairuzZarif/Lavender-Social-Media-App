@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Posts</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/my_posts.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js"></script>
+    <style>
+        /* Style for the Search Bar */
+        .search-bar {
+            margin: 1rem auto;
+            max-width: 800px;
+            display: flex;
+            justify-content: space-between;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .search-bar input[type="text"] {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .search-bar button {
+            padding: 0.75rem 1rem;
+            background-color: #333333;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            background-color: #555555;
+        }
+
+        #inbox-button :hover{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/posts/">Posts</a></li>
+                <li><a href="/follow/">Following</a></li>
+                <li id="inbox-button"><a>Inbox</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="search-bar">
+            <input type="text" placeholder="Search posts..." />
+            <button>Search</button>
+        </section>
+
+        <section id="posts-header">
+            <h1>My Posts</h1>
+            <p>View and manage all the posts you have created.</p>
+        </section>
+
+        <section id="posts-list">
+            <div class="post-container">
+                {% for post in posts %}
+                <div class="post-item">
+                    <h2>{{ post.title }}</h2>
+                    <p class="description">{{ post.description|truncatewords:30 }}</p>
+                    <small class="date">Published: {{ post.published|date:"F j, Y, g:i a" }}</small>
+                    <p class="visibility">Visibility: {{ post.get_visibility_display }}</p>
+                    <div class="post-actions">
+                        <a href="{{ post.get_absolute_url }}" class="btn">View Post</a>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="no-posts">
+                    <p>No posts available yet. Create your first post!</p>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Lavender - All Rights Reserved</p>
+    </footer>
+</body>
+</html>

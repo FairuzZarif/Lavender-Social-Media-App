@@ -18,12 +18,16 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from drf_spectacular.views import SpectacularAPIView
+from drf_spectacular.views import SpectacularRedocView
+
+app_name = "socialapp"
 
 urlpatterns = [
-    path('', include('core.urls')), #subject to change
-    path('authors/', include('authors.urls')),  
-    path('posts/', include('posts.urls')),  
-    path('follow/', include('follow.urls')),  
-    path('inbox/', include('inbox.urls')),  
+    path('', include(('core.urls'), namespace='socialapp')),
     path('admin/', admin.site.urls),
+    path('api/', include('posts.urls')),
+    
+    path('api/schema/', SpectacularAPIView.as_view(), name = 'schema'),
+    path('api/docs/', SpectacularRedocView.as_view(url_name = 'schema'), name='redoc'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

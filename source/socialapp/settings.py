@@ -9,36 +9,62 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+from dotenv import load_dotenv
 from pathlib import Path
-import os
+import os, dj_database_url
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv(".env", override=True)
+LOCAL_HOST = os.getenv("LOCAL_HOST")
+API_HOST = LOCAL_HOST + "api/"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY", "default-secret-key")
-CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS", 'http://localhost http://127.0.0.1').split(" ")
+CSRF_TRUSTED_ORIGINS = ["http://localhost:8000", "http://127.0.0.1:8000"]  # Update as needed
+CSRF_COOKIE_HTTPONLY = False  # Allows JS to read the CSRF token
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.environ.get("DEBUG", default=True))
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "*").split(" ")
-DJANGO_API_URL = os.getenv("DJANGO_API_URL", "http://localhost:8000")
+DJANGO_API_URL = os.getenv("http://localhost:8000", "http://127.0.0.1:8000")
+
+# Enable secure cookies
+SESSION_COOKIE_SECURE = True  # Ensures cookie is only sent over HTTPS
+
+# Ensure the cookie is HttpOnly
+SESSION_COOKIE_HTTPONLY = True  # Makes the session cookie inaccessible to JavaScript
+
+# Restrict cross-site cookies
+SESSION_COOKIE_SAMESITE = 'Strict'  # Prevents cookies from being sent with cross-site requests
+
+# Security settings
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
 
 # Application definition
-
 INSTALLED_APPS = [
     'corsheaders', # I need it to handle cross origin requests
     'rest_framework',
-    'authors',  
-    'posts',  
-    'inbox',  
-    'follow', 
-    
+    'authors',
+    'follow',  
+    'posts',
+    'comments_likes',
+    'markdownify',
+    'inbox',
+    'core',
+    'socialapp',
+        
+    'sslserver', #for https locally
+    'csp',
+    "drf_spectacular",
+    "drf_spectacular_sidecar",
     'whitenoise.runserver_nostatic', #added for static serving
     'django.contrib.admin',
     'django.contrib.auth',
@@ -47,6 +73,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'core.authentication.LavenderAuth', 
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
 
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',  # WhiteNoise middleware for static files
@@ -57,8 +94,10 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',  # X-Frame options middleware
+    'csp.middleware.CSPMiddleware',
 ]
+
 
 ROOT_URLCONF = 'socialapp.urls'
 
@@ -80,6 +119,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'socialapp.wsgi.application'
 
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -126,14 +167,56 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
-STATIC_URL = 'static/'
+IMAGE_URL = '/images/'
+IMAGE_ROOT = MEDIA_ROOT / 'images'
 
-STATICFILES_DIRS = [BASE_DIR / 'static'] 
-STATIC_ROOT = BASE_DIR / 'staticfiles' 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Content Security Policy
+CSP_DEFAULT_SRC = (
+    "'self'",
+
+)
+CSP_SCRIPT_SRC = (
+    "'self'", "blob:", "https://cdn.jsdelivr.net",
+
+)
+CSP_STYLE_SRC = (
+    "'self'", "'unsafe-inline'", '*',
+
+)
+CSP_IMG_SRC = (
+    "'self'", "data:", '*',
+)
+CSP_CONNECT_SRC = (
+    "'self'", '*',
+
+)
+CSP_FONT_SRC = (
+    "'self'", '*',
+)
+CSP_FRAME_SRC = (
+    "'self'", '*',
+    "https://www.youtube.com/"
+)
+CSP_FRAME_ANCESTORS = ("'none'")
+
+SPECTACULAR_SETTINGS = {
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SWAGGER_UI_DIST': 'SIDECAR',
+    'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
+    'REDOC_DIST': 'SIDECAR',
+    'DISABLE_ERRORS_AND_WARNINGS': True,
+    'TITLE': 'Lavender API',
+    'VERSION': '1.0.0',
+}

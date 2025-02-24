@@ -1,6 +1,20 @@
-from django.urls import path
+from django.urls import path, re_path
 from . import views
 
 urlpatterns = [
-    path('authors/<int:author_id>/follow/<int:target_author_id>/', views.FollowAuthorView.as_view(), name='follow-author'),
+    path(
+        'api/authors/<str:object_pk>/froe/',
+        views.FollowRequestsObjectEnd.as_view(),
+        name = 'api-getFollow-object_pk'
+    ),
+    re_path(
+        r'^api/authors/(?P<object_pk>[^\/]+)/froe/(?P<actor_id>(http|https).+)$',
+        views.FollowRequestObjectEnd.as_view(),
+        name = 'api-handleFollow-object_pk-actor_id'
+    ),
+    re_path(
+        r'^api/authors/(?P<actor_pk>[^\/]+)/frae/(?P<object_id>(http|https).+)$',
+        views.FollowRequestActorEnd.as_view(),
+        name = 'api-handleFollow-actor_pk-object_id'
+    ),
 ]

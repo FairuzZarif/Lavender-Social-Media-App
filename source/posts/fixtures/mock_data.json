@@ -1,0 +1,84 @@
+[
+    {
+      "model": "authors.author",
+      "pk": "11111111-1111-1111-1111-111111111111",
+      "fields": {
+        "type": "author",
+        "url": "http://localhost:8000/authors/11111111-1111-1111-1111-111111111111",
+        "host": "http://localhost:8000/",
+        "display_name": "Author One",
+        "github": "http://github.com/authorone",
+        "profile_image": "https://i.imgur.com/k7XVwpB.jpeg",
+        "page": "http://localhost:8000/authors/11111111-1111-1111-1111-111111111111"
+      }
+    },
+    {
+      "model": "authors.author",
+      "pk": "22222222-2222-2222-2222-222222222222",
+      "fields": {
+        "type": "author",
+        "url": "http://localhost:8000/authors/22222222-2222-2222-2222-222222222222",
+        "host": "http://localhost:8000/",
+        "display_name": "Author Two",
+        "github": "http://github.com/authortwo",
+        "profile_image": "https://i.imgur.com/k7XVwpB.jpeg",
+        "page": "http://localhost:8000/authors/22222222-2222-2222-2222-222222222222"
+      }
+    },
+    {
+      "model": "posts.post",
+      "pk": "http://localhost:8000/api/authors/11111111-1111-1111-1111-111111111111/posts/1",
+      "fields": {
+        "title": "Author 1 - First Post",
+        "page": "http://localhost:8000/authors/11111111-1111-1111-1111-111111111111/posts/",
+        "description": "This is the first post of Author One.",
+        "content_type": "text/plain",
+        "content": "Hello from Author One!",
+        "author": "11111111-1111-1111-1111-111111111111",
+        "published": "2025-02-14T12:00:00Z",
+        "visibility": "PUBLIC"
+      }
+    },
+    {
+      "model": "posts.post",
+      "pk": "http://localhost:8000/api/authors/11111111-1111-1111-1111-111111111111/posts/2",
+      "fields": {
+        "title": "Author 1 - Second Post",
+        "page": "http://localhost:8000/authors/11111111-1111-1111-1111-111111111111/posts/",
+        "description": "This is the second post of Author One.",
+        "content_type": "text/markdown",
+        "content": "**Markdown content by Author One**",
+        "author": "11111111-1111-1111-1111-111111111111",
+        "published": "2025-02-14T12:05:00Z",
+        "visibility": "PUBLIC"
+      }
+    },
+    {
+      "model": "posts.post",
+      "pk": "http://localhost:8000/api/authors/22222222-2222-2222-2222-222222222222/posts/3",
+      "fields": {
+        "title": "Author 2 - First Post",
+        "page": "http://localhost:8000/authors/22222222-2222-2222-2222-222222222222/posts/",
+        "description": "This is the first post of Author Two.",
+        "content_type": "text/plain",
+        "content": "Hello from Author Two!",
+        "author": "22222222-2222-2222-2222-222222222222",
+        "published": "2025-02-14T12:10:00Z",
+        "visibility": "PUBLIC"
+      }
+    },
+    {
+      "model": "posts.post",
+      "pk": "http://localhost:8000/api/authors/22222222-2222-2222-2222-222222222222/posts/4",
+      "fields": {
+        "title": "Author 2 - Second Post",
+        "page": "http://localhost:8000/authors/22222222-2222-2222-2222-222222222222/posts/",
+        "description": "This is the second post of Author Two.",
+        "content_type": "text/markdown",
+        "content": "**Markdown content by Author Two**",
+        "author": "22222222-2222-2222-2222-222222222222",
+        "published": "2025-02-14T12:15:00Z",
+        "visibility": "PUBLIC"
+      }
+    }
+  ]

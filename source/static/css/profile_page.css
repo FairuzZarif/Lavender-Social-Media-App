@@ -1,0 +1,169 @@
+/* General Styles */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    display: flex;
+    flex-direction: column; /* Make body a flex container */
+}
+
+/* Style for the header */
+header {
+    background-color: #333;  /* Dark background color */
+    padding: 10px 20px;      /* Add padding around the header */
+    position: sticky;        /* Make the header sticky at the top */
+    top: 0;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    z-index: 100;            /* Ensures it's on top of other content */
+}
+
+/* Style for the nav element */
+nav {
+    display: flex;            /* Use flexbox for aligning items */
+    justify-content: center;  /* Center items horizontally */
+    align-items: center;      /* Center items vertically */
+}
+
+/* Style for the unordered list (ul) inside the nav */
+nav ul {
+    display: flex;             /* Use flexbox to align list items horizontally */
+    list-style-type: none;     /* Remove default list styling (bullets) */
+    margin: 0;                 /* Remove default margin */
+    padding: 0;                /* Remove default padding */
+}
+
+/* Style for each list item (li) in the nav */
+nav ul li {
+    margin: 0 15px;            /* Add space between each list item */
+}
+
+/* Style for the links inside the nav */
+nav ul li a {
+    color: white;              /* Set text color to white */
+    text-decoration: none;     /* Remove underline */
+    font-size: 1.1rem;         /* Set font size */
+    font-weight: 500;          /* Make the font slightly bold */
+    transition: color 0.3s ease; /* Smooth transition for color change */
+}
+
+/* Hover effect for the navbar items */
+nav ul li a:hover {
+    color: #d1cdc7; /* Change text color on hover */
+}
+
+
+#profile-header {
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 2rem auto;
+    width: 80%;
+    max-width: 1000px;
+    border-radius: 12px;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.profile-pic {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #1a73e8;
+}
+
+.profile-details h1 {
+    margin: 0;
+    font-size: 2.2rem;
+    color: #1a73e8;
+}
+
+.profile-details p {
+    margin: 0.5rem 0;
+    color: #555;
+    font-size: 1rem;
+}
+
+#profile-actions {
+    margin: 2rem auto;
+    width: 80%;
+    max-width: 1000px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.btn {
+    background-color: #1a73e8;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-block;
+}
+
+.btn:hover {
+    background-color: #1669c1;
+    transform: scale(1.05);
+}
+
+#recent-activity, #user-posts {
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 2rem auto;
+    width: 80%;
+    max-width: 1000px;
+    border-radius: 12px;
+    padding: 2rem;
+}
+
+h2 {
+    margin-top: 0;
+    font-size: 1.8rem;
+    color: #1a73e8;
+    text-align: center;
+}
+
+.activity-list, .post-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0 0;
+}
+
+.activity-list li, .post-item {
+    border-bottom: 1px solid #ddd;
+    padding: 1rem 0;
+    font-size: 1rem;
+}
+
+.activity-list li:last-child, .post-item:last-child {
+    border-bottom: none;
+}
+
+.post-item h3 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: #333;
+}
+
+footer {
+    background-color: #1a73e8;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+}
+
+footer p {
+    margin: 0;
+}

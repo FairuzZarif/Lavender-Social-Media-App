@@ -1,7 +1,6 @@
-from django.urls import path
+from django.urls import path, re_path
 from . import views
 
 urlpatterns = [
-    path('inbox/', views.InboxView.as_view(), name='inbox'),
-    path('inbox/<int:message_id>/', views.InboxMessageDetailView.as_view(), name='inbox-message'),
+    path('api/authors/<str:author_pk>/inbox', views.InboxView.as_view(), name = 'api-inbox-author_pk'),
 ]

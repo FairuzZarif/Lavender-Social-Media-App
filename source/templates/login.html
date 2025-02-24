@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Lavender Distribution</title>
+        <link rel="icon" type="image/png" href="{% static 'ico/favicon.ico' %}">
+        <link rel="stylesheet" href="{% static 'css/login.css' %}">
+        <meta charset="UTF-8">
+        {% load static %}
+        <script src="{% static 'js/js.cookie.min.js' %}"></script>
+        <script src="{% static 'js/login.js' %}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js"></script>
+    </head>
+
+    <body id="login-body">
+        <div id="static-urls"
+            data-user-profile-img="{% static 'img/default_avatar.png' %}">
+        </div>
+        <img id="app-icon" src="{% static 'img/logo.png' %}" width="20%" height="10%" style="border-radius: 50%;" >
+        <div id="login-container">
+            <p id="username-error" class="error-message"></p>
+            <div id="image-container">
+                <img id="avatar-edit" src="{% static '/img/default_avatar.png' %}" alt="Avatar">
+                <img id="upload-icon" src="{% static '/img/upload.png' %}" alt="Upload">
+                <input type="file" id="image-upload" accept="image/*">
+            </div>
+            <br>
+            <input id="app-username" type="text" placeholder="Enter Username" name="uname" required>
+            <br>
+            <input id="app-password" type="password" placeholder="Enter Password" name="psw" required>
+            <br>
+            <input id="confirm-password" type="password" placeholder="Confirm Password" name="conf-psw" required>
+            <br>
+            <button id="sign-in-button" type="submit">Sign In</button>
+            <br>
+            <a id="toggle-text">Don't have an account?</a>
+            <br>
+            <a href="" id="toggle-link">Sign Up</a>
+            <br>
+            <a href="/admin" target="_blank" id="admin-link">Admin Panel</a>
+            <br>
+            
+            <br>
+            <p id="terms">
+                By creating an account, you agree to the 
+                <a href="/Lavender" target="_blank">Terms of Service</a>.
+                <br>
+                For more information about Lavender Distribution's privacy practices, see the
+                <a href="/Lavender" target="_blank">Lavender Distribution Privacy Statement (LDPS)</a>.
+            </p>
+        </div>
+    </body>
+</html>

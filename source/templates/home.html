@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Feed</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js"></script>
+
+    <script type="text/javascript" src="{% static 'js/js.cookie.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/reposting.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/inbox.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/home.js'%}"></script>
+    <style>
+        .search-bar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .search-bar input[type="text"] {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .search-bar button {
+            padding: 0.75rem 1rem;
+            background-color: #333333;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            background-color: #555555;
+        }
+
+        #backtotop-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999; 
+            padding: 1rem 1.5rem;
+            background-color: white;
+            color: #333333;
+            border-radius: 200px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #backtotop-button:hover {
+            background-color: #333333;
+            color: white;
+        }
+
+        #inbox-button :hover{
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/posts/">Posts</a></li>
+                <li><a href="/follow/">Following</a></li>
+                <li id="inbox-button"><a>Inbox</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div id="static-urls"
+            data-user-profile-img="{% static 'img/default_user.png' %}"
+            data-like-img="{% static 'img/likeUnhover.PNG' %}"
+            data-liked-img="{% static 'img/like.PNG' %}"
+            data-inbox-img-new="{% static 'img/inboxNew.PNG' %}"
+            data-repost-img="{% static 'img/repostUnhover.PNG' %}"
+            data-reposted-img="{% static 'img/repost.PNG' %}"
+            data-extension-on-img="{% static 'img/extensionOn.png' %}"
+            data-extension-off-img="{% static 'img/extensionOff.png' %}">
+        </div>
+
+        <div id="edit-post-textarea-container" class="edit-post-textarea-container">
+            <div id="create-post-title" class="create-post-header">
+                <h1 class="make-post-title" id="make-post-title">Make a Post!</h1>
+            </div>
+            <input type="text" id="title" placeholder="Enter title" minlength="1" maxlength="64">
+            <input type="text" id="description" placeholder="Enter description" minlength="1" maxlength="128">
+
+            <textarea id="edit-post-textarea" placeholder="What is happening today!!"></textarea>
+            <input type="file" id="image-upload" accept="image/*">
+
+            <div class="dropdown-container">
+                <label for="content-type">Content type:</label>
+                <select id="content-type" name="content-type">
+                    <option value="text/plain">Plain text</option>
+                    <option value="text/markdown">CommonMark</option>
+                    <option value="image/png;base64">Image: png</option>
+                    <option value="image/jpeg;base64">Image: jpeg</option>
+                    <option value="application/base64">Image: other</option>
+                </select>
+    
+                <label for="visibility-options">Visibility:</label>
+                <select id="visibility-options" name="visibility-options">
+                    <option value="PUBLIC">Public</option>
+                    <option value="UNLISTED">Unlisted</option>
+                    <option value="FRIENDS">Friends-only</option>
+                </select>
+    
+                <button class="post-button" id="post-button">Post</button>
+            </div>
+        </div>
+
+        <div id="posts-container" class="posts-container">
+            <h1 class="title" id="title">For You</h1>
+
+            <!-- Search FEED POSTS Section -->
+            <section class="search-bar">
+                <input type="text" placeholder="I haven't been Implemented yet so don't use me" />
+                <button id="">Search</button>
+            </section>
+            
+            <div id="button-container">
+                <button id="refresh-button">Refresh</button>
+                <button id="edit-button">New Post</button>
+                <button id="follow-button"> Follow</button>
+            </div>
+
+            
+            <button id="backtotop-button">Back To Top</button>
+        </div>
+        
+        <div id="inboxModal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="close-inbox-modal">&times;</span>
+                <h3 id="inbox-title">Inbox</h3>
+                <ul id="inbox-list">
+                </ul>
+            </div>
+        </div>
+
+        <div id="follow-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="close-follow-modal">&times;</span>
+                <p id="follow-error" class="error-message"></p>
+                <p>
+                    <select id="protocol-type" name="search-type">
+                        <option value="https">https</option>
+                        <option value="http">http</option>
+                    </select>
+                    ://
+                    <input type="input" id="host-input" placeholder="Enter a host" required>
+                    /api/authors/
+                    <input type="input" id="username-input" placeholder="Enter an username" required>
+                </p>
+                <button type="submit" id="id-submit-button">Send Request</button>
+                <p>We will notify the user you have sent a follow request.</p>
+            </div>
+        </div>
+        
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Lavender - All Rights Reserved</p>
+    </footer>
+</body>
+</html>

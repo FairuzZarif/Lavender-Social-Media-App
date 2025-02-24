@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Followed Users & Followers</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/follow_page.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.4/dist/purify.min.js"></script>
+    <style>
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+
+        /* Search Bar Style */
+        .search-bar {
+            margin: 1rem auto;
+            max-width: 800px;
+            display: flex;
+            justify-content: space-between;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .search-bar input[type="text"] {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .search-bar button {
+            padding: 0.75rem 1rem;
+            background-color: #333333;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            background-color: #555555;
+        }
+
+        /* Toggle Buttons */
+        .toggle-buttons {
+            display: flex;
+            justify-content: center;
+            margin: 1rem auto;
+            gap: 1rem;
+        }
+
+        .toggle-buttons .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            background-color: #555555;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .toggle-buttons .btn.active {
+            background-color: #333333; /* Darker for active button */
+        }
+
+        .toggle-buttons .btn:hover {
+            background-color: #444444;
+        }
+
+        /* User List */
+        .user-list {
+            margin: 1rem auto;
+            max-width: 800px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .user-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .user-item:last-child {
+            border-bottom: none;
+        }
+
+        .user-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .user-details h4 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: #333333;
+        }
+
+        .user-details p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            background-color: #333333;
+            color: white;
+            padding: 1rem 0;
+            margin-top: 2rem;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #inbox-button :hover{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/posts/">Posts</a></li>
+                <li><a href="/follow/">Following</a></li>
+                <li id="inbox-button"><a>Inbox</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Search Bar Section -->
+        <section class="search-bar">
+            <input type="text" placeholder="Search followed users or followers..." />
+            <button>Search</button>
+        </section>
+
+        <!-- Toggle Buttons Section -->
+        <section class="toggle-buttons">
+            <button class="btn active" id="followed-toggle">Followed Users</button>
+            <button class="btn" id="followers-toggle">Followers</button>
+        </section>
+
+        <!-- Followed Users List -->
+        <section id="followed-list" class="user-list">
+            <h2>Followed Users</h2>
+            {% for user in followed_users %}
+            <div class="user-item">
+                <img src="{% static 'img/default_avatar.png' %}" alt="Profile Picture">
+                <div class="user-details">
+                    <h4>{{ user.display_name }}</h4>
+                    <p>{{ user.bio|truncatewords:10 }}</p>
+                </div>
+            </div>
+            {% empty %}
+            <p>You are not following anyone yet.</p>
+            {% endfor %}
+        </section>
+
+        <!-- Followers List -->
+        <section id="followers-list" class="user-list" style="display: none;">
+            <h2>Followers</h2>
+            {% for user in followers %}
+            <div class="user-item">
+                <img src="{% static 'img/default_avatar.png' %}" alt="Profile Picture">
+                <div class="user-details">
+                    <h4>{{ user.display_name }}</h4>
+                    <p>{{ user.bio|truncatewords:10 }}</p>
+                </div>
+            </div>
+            {% empty %}
+            <p>No one is following you yet.</p>
+            {% endfor %}
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Lavender - All Rights Reserved</p>
+    </footer>
+
+    <script>
+        // JavaScript for Toggle Buttons
+        const followedToggle = document.getElementById('followed-toggle');
+        const followersToggle = document.getElementById('followers-toggle');
+        const followedList = document.getElementById('followed-list');
+        const followersList = document.getElementById('followers-list');
+
+        followedToggle.addEventListener('click', () => {
+            followedList.style.display = 'block';
+            followersList.style.display = 'none';
+            followedToggle.classList.add('active');
+            followersToggle.classList.remove('active');
+        });
+
+        followersToggle.addEventListener('click', () => {
+            followedList.style.display = 'none';
+            followersList.style.display = 'block';
+            followersToggle.classList.add('active');
+            followedToggle.classList.remove('active');
+        });
+    </script>
+</body>
+</html>
