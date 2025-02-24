@@ -51,53 +51,53 @@
         }
     </style>
 </head>
-<body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="/home">Home</a></li>
-                <li><a href="/profile">Profile</a></li>
-                <li><a href="/posts/">Posts</a></li>
-                <li><a href="/follow/">Following</a></li>
-                <li id="inbox-button"><a>Inbox</a></li>
-            </ul>
-        </nav>
-    </header>
+    <body>
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="/posts/">Posts</a></li>
+                    <li><a href="/follow/">Following</a></li>
+                    <li id="inbox-button"><a>Inbox</a></li>
+                </ul>
+            </nav>
+        </header>
 
-    <main>
-        <section class="search-bar">
-            <input type="text" placeholder="Search posts..." />
-            <button>Search</button>
-        </section>
-
-        <section id="posts-header">
-            <h1>My Posts</h1>
-            <p>View and manage all the posts you have created.</p>
-        </section>
-
-        <section id="posts-list">
-            <div class="post-container">
-                {% for post in posts %}
-                <div class="post-item">
-                    <h2>{{ post.title }}</h2>
-                    <p class="description">{{ post.description|truncatewords:30 }}</p>
-                    <small class="date">Published: {{ post.published|date:"F j, Y, g:i a" }}</small>
-                    <p class="visibility">Visibility: {{ post.get_visibility_display }}</p>
-                    <div class="post-actions">
-                        <a href="{{ post.get_absolute_url }}" class="btn">View Post</a>
-                    </div>
-                </div>
-                {% empty %}
-                <div class="no-posts">
-                    <p>No posts available yet. Create your first post!</p>
-                </div>
-                {% endfor %}
+        <main>
+            <div class="search-bar">
+                <input type="text" placeholder="Search posts...">
+                <button>Search</button>
             </div>
-        </section>
-    </main>
 
-    <footer>
-        <p>&copy; 2025 Lavender - All Rights Reserved</p>
-    </footer>
-</body>
+            <section id="posts-header">
+                <h1>My Posts</h1>
+                <p>View and manage all the posts you have created.</p>
+            </section>
+
+            <section id="posts-list">
+                <div class="post-container">
+                    {% for post in posts %}
+                    <div class="post-item">
+                        <h2>{{ post.title }}</h2>
+                        <p class="description">{{ post.description|truncatewords:30 }}</p>
+                        <small class="date">Published: {{ post.published|date:"F j, Y, g:i a" }}</small>
+                        <p class="visibility">Visibility: {{ post.get_visibility_display }}</p>
+                        <div class="post-actions">
+                            <a href="{{ post.get_absolute_url }}" class="btn">View Post</a>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="no-posts">
+                        <p>No posts available yet. Create your first post!</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Lavender - All Rights Reserved</p>
+        </footer>
+    </body>
 </html>

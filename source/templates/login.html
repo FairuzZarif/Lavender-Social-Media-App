@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <meta charset="UTF-8">
+        {% load static %}
         <title>Lavender Distribution</title>
         <link rel="icon" type="image/png" href="{% static 'ico/favicon.ico' %}">
         <link rel="stylesheet" href="{% static 'css/login.css' %}">
-        <meta charset="UTF-8">
-        {% load static %}
         <script src="{% static 'js/js.cookie.min.js' %}"></script>
         <script src="{% static 'js/login.js' %}"></script>
         <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -16,7 +16,7 @@
         <div id="static-urls"
             data-user-profile-img="{% static 'img/default_avatar.png' %}">
         </div>
-        <img id="app-icon" src="{% static 'img/logo.png' %}" width="20%" height="10%" style="border-radius: 50%;" >
+        <img id="app-icon" src="{% static 'img/logo.png' %}" alt="App Logo" style="width: 20%; height: 10%; border-radius: 50%;">
         <div id="login-container">
             <p id="username-error" class="error-message"></p>
             <div id="image-container">
