@@ -8,7 +8,8 @@
 
 # Lavender Project - Local Setup & Test Instructions
 
-### Find our API documentation [here](https://e4d7-2605-fd00-4-1001-f816-3eff-fe7d-b637.ngrok-free.app/api/docs/).
+
+### Find our API documentation [here](https://e4d7-2605-fd00-4-1001-f816-3eff-fe7d-b637.ngrok-free.app/api/docs/). It can also be found in API_Docs.md in Markdown format.
 
 ### Running Instance Available [here](https://e4d7-2605-fd00-4-1001-f816-3eff-fe7d-b637.ngrok-free.app/).
 
