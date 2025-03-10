@@ -330,3 +330,7 @@ staticfiles/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 .env
+
+# Ignore media files
+/media/
+images/

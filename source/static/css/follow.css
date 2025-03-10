@@ -1,0 +1,448 @@
+body, html  {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Style for the header */
+header {
+    background-color: #333;  /* Dark background color */
+    padding: 10px 20px;      /* Add padding around the header */
+    position: sticky;        /* Make the header sticky at the top */
+    top: 0;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    z-index: 100;            /* Ensures it's on top of other content */
+}
+
+/* Style for the nav element */
+nav {
+    display: flex;            /* Use flexbox for aligning items */
+    justify-content: center;  /* Center items horizontally */
+    align-items: center;      /* Center items vertically */
+}
+
+/* Style for the unordered list (ul) inside the nav */
+nav ul {
+    display: flex;             /* Use flexbox to align list items horizontally */
+    list-style-type: none;     /* Remove default list styling (bullets) */
+    margin: 0;                 /* Remove default margin */
+    padding: 0;                /* Remove default padding */
+}
+
+/* Style for each list item (li) in the nav */
+nav ul li {
+    margin: 0 15px;            /* Add space between each list item */
+}
+
+/* Style for the links inside the nav */
+nav ul li a {
+    color: white;              /* Set text color to white */
+    text-decoration: none;     /* Remove underline */
+    font-size: 1.1rem;         /* Set font size */
+    font-weight: 500;          /* Make the font slightly bold */
+    transition: color 0.3s ease; /* Smooth transition for color change */
+}
+
+/* Hover effect for the navbar items */
+nav ul li a:hover {
+    color: #d1cdc7; /* Change text color on hover */
+}
+
+div a {
+    color: white;
+}
+
+input {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1em;
+}
+
+textarea {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.profile-header {
+    display: flex;
+    justify-content: center;
+    column-gap: 2em;
+    background-color: #5e5c5c;
+    color: white;
+    padding: 20px;
+}
+
+.profile-header h1 {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 10px 0;
+}
+
+.avatar {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    background-size:100% 100vh;
+}
+
+.logout {
+    width: 20px;
+    height: 20px;
+    background-size:100% 100vh;
+}
+
+.logout:hover {
+    cursor: pointer;
+}
+
+.follows-container {
+    display: flex;
+    column-gap: 1em;
+}
+
+.post-header {
+    padding: 10px;
+    text-align: center;
+    margin-left: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.glass {
+    width: 100%;    
+    border-radius: 100%;
+    border: none;       /* Remove the default border of <hr> */
+    height: 3px; 
+}
+
+
+.post-container {
+    margin: 20px;
+    transition: all 0.05s ease;
+}
+
+.post-container:hover {
+    background-color: #f0f0f0;
+}
+
+.posts {
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.post {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+}
+
+.post h4 {
+    font-size: 16px;
+}
+
+.post .interaction {
+    display: inline-flex;
+    font-size: 14px;
+    color: #c3bfb5;
+    margin-top: 10px;
+}
+
+.post :hover {
+    cursor: pointer;
+}
+
+.interaction-container {
+    display: flex;
+    gap: 10px;
+}
+
+.interaction {
+    margin: 0;
+    padding: 0;
+    color: #555;
+    font-size: 0.9em;
+    display: inline-block;
+}
+
+#website-title {
+    font-weight: bolder;
+}
+
+#website-title:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+#content {
+    resize: none;
+}
+
+.modal {
+    visibility: hidden;
+    opacity: 0;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: opacity 0.3s ease;
+    overflow: hidden;
+}
+
+.modal.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 50%;
+    max-width: 600px;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-height: 80%;
+    overflow:hidden;
+}
+
+.modal-body {
+    padding-bottom: 10px;
+    max-height: calc(80vh - 50px);
+    overflow-y: auto;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover, .close:focus {
+    color: black;
+    cursor: pointer;
+}
+
+.image {
+    text-align: center;
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px dashed #ccc;
+    border-radius: 5px;
+    transition: opacity 0.3s;
+}
+
+.image-upload {
+    display: none;
+}
+
+.image:hover {
+    cursor: pointer;
+    filter: brightness(70%);
+}
+
+select {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1em;
+    width: 200px;
+    padding: 12px 20px;
+    margin: 10px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    color: #333;
+    background-color: white;
+}
+
+select option {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1em;
+    background-color: #f0f0f0;
+    color: #333;
+    background-color: white;
+    padding: 10px;
+  }
+
+.follow:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.responsive-img {
+    width: 5%;
+    height: auto;
+}
+
+#edit-profile{
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    background-color: #3d3d3d;
+    color: white;
+}
+
+
+.published-date {
+    color: #555;
+    margin-left: auto;
+}
+
+.post-container {
+    animation: fadeIn 0.5s ease-out;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }  
+
+.post-container:hover {
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(1.02);
+    
+    background-color: #c1bebe;
+}
+
+.post-container:hover * {
+    color: white !important;  /* Ensure text color is applied to all child elements */
+}
+
+.post { /* small post-item containing the title-text and description inside the bigger container*/
+    margin: 1rem;
+    padding-top: 10px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center; /* Vertically center the profile image and username */
+    gap: 10px; /* Space between image and username */
+}
+
+.user-info img {
+    border-radius: 50%; /* Circular profile image */
+    width: 40px;
+    height: 40px;
+    object-fit: cover; /* Ensure image doesn’t stretch or distort */
+}
+
+.user-info p {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+
+.post-title {
+    font-size: 1.5rem; /* Larger title */
+    font-weight: 600; /* Slightly bolder font */
+    margin-bottom: 0.5rem; /* Space below the title */
+    color: #333; /* Dark color for readability */
+}
+
+.post-description {
+    font-size: 1.1rem; /* Slightly smaller than the title */
+    color: #555; /* Lighter color for description */
+    margin-bottom: 1rem; /* Space below the description */
+}
+
+.post-content {
+    margin-bottom: 1rem; /* Space below the content */
+    font-size: 1rem; /* Standard text size */
+    color: #333; /* Dark text for readability */
+}
+
+#profile:hover, #following:hover{
+    cursor: pointer;
+}
+
+.main{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+}
+
+.follower-container {
+    margin: 20px;
+    transition: all 0.05s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.word-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    overflow: hidden;
+    width: 300px;
+    white-space: nowrap;
+}
+
+.word-container h3 {
+    align-self: end;
+    position: relative;
+    top: 10px;
+}
+
+.followers-avatar {
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    background-size: 100% 100vh;
+}
+
+.username:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.responsive-img {
+    width: 5%;
+    height: auto;
+}
+
+.follow-button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    background-color: #666666;
+    color: white;
+}
+
+.follow-button:hover {
+    background-color: #4d4d4d;
+    transform: scale(1.05);
+}
+
+.username {
+    margin-bottom: 2rem;
+}

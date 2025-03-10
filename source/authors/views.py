@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from django.shortcuts import render, get_object_or_404 # type: ignore
 from posts.views import handle_post_data
 from rest_framework.views import APIView # type: ignore
@@ -18,7 +19,7 @@ from django.core.files.storage import default_storage #type: ignore
 from django.core.files.base import ContentFile # type: ignore
 from rest_framework.utils.serializer_helpers import ReturnDict, ReturnList #type: ignore
 import uuid, os, requests #type: ignore
-
+import base64
 from core.schema_defs import *
 
 local_host = settings.LOCAL_HOST
@@ -106,7 +107,7 @@ class AuthorView(APIView):
             return Response(status = status.HTTP_404_NOT_FOUND)
         serializer = AuthorSerializer(author)
         data = remove_kvpair(["username", "password", "lastGithubUpdate", "isVerified"], serializer.data)
-        #handle_github_activity(request, author)
+        handle_github_activity(request, author)
         return Response(status = status.HTTP_200_OK, data = data)
 
     @SchemaDefinitions.author_view_put
@@ -254,9 +255,42 @@ def save_profile_image(request, author_pk):
 def standardize_profile_image_name(profimg, author_pk):
     return f"{author_pk}-{uuid.uuid4()}{profimg.name[profimg.name.rfind('.'):]}"
 
-
+def validate_image_file(post_content, content_type, mode):
+    data = post_content.split(";base64,")[1]
+    try:
+        image_data = base64.b64decode(data)
+    except:
+        return None
+    if content_type == "image/png;base64":
+        name = standardize_post_image_name("png")
+    elif content_type == "image/jpeg;base64":
+        name = standardize_post_image_name("jpeg")
+    elif content_type == "application/base64":
+        image_type = post_content.split("/")[1].split(";")[0]
+        if image_type == "svg+xml":
+            image_type = "svg"
+        name = standardize_post_image_name(image_type)
+    else:
+        return None
+    os.makedirs(fp_post_image, exist_ok=True)
+    with open(name, "wb") as image_file:
+        image_file.write(image_data)
+    try:
+        img = Image.open(name)
+        img.verify()
+    except Exception:
+        os.remove(name)
+        return None
+    else:
+        if mode == "in":
+            os.remove(name)
+            return True
+        else:
+            return name
+ 
 """ Github Activity Helpers """
 class GithubActivityGenerator:
+
     def __init__(self, event):
         self.dict = {
             "PushEvent": [2, "Created ", " commit(s) in "],
@@ -380,6 +414,7 @@ def is_remote_access(request):
     return request.user.username == "remoteauth"
 
 class APCLJsonGenerator:
+
     def __init__(self, request, **kwargs):
         self.authors_page = 1
         self.authors_page_size = 10000
@@ -606,7 +641,7 @@ class APCLJsonGenerator:
         data = remove_kvpair(["mid", "post", "comment"], LikeSerializer(like).data)
         data["author"] = remove_kvpair(["username", "password", "lastGithubUpdate", "isVerified"], AuthorSerializer(like.author).data)
         return data
-      
+
 class LinkGenerator:
 
     def __init__(self, mode, args):

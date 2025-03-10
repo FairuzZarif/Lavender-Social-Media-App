@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    <head>
+        <title>Lavender</title>
+        <link rel="icon" type="image/png" href="{% static 'ico/favicon.ico' %}">
+        <link rel="stylesheet" href="{% static 'css/follow.css' %}">
+        <link rel="stylesheet" href="{% static 'css/profile_style.css' %}">
+        <meta charset="UTF-8">
+        <script src="{% static 'js/js.cookie.min.js' %}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dompurify@2.3.10/dist/purify.min.js"></script>
+        <script src="{% static 'js/follower.js' %}"></script>
+        <script src="{% static 'js/inbox.js'%}"></script>
+    </head>
+
+    <body>
+        <div id="static-urls"
+            data-user-profile-img="{% static 'img/default_user.png' %}"
+            data-delete-img="{% static 'img/deleteUnhover.PNG' %}"
+            data-deleted-img="{% static 'img/delete.PNG' %}"
+            data-edit-img="{% static 'img/editUnhover.PNG' %}"
+            data-edited-img="{% static 'img/edit.PNG' %}"
+            data-share-img="{% static 'img/shareUnhover.PNG' %}"
+            data-shared-img="{% static 'img/share.PNG' %}">
+        </div>
+        
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="/home">Home</a></li>
+                    <li><a id='profile'>Profile</a></li>
+                    <li><a id='following'>Following</a></li>
+                    <li id="inbox-button"><a>Inbox</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class = "profile-header">
+            <div class="profile-container">
+                <h1 id="username"></h1>
+                <div class="follows-container" id="follows-container">
+                    <h3 id="follower-count" class="follow">0 Follower</h3>
+                    <h3 id="following-count" class="follow">0 Following</h3>
+                </div>
+            </div>
+            <img id="profile-avatar" class="avatar" src="{% static 'img/default_avatar.png' %}" alt="Avatar">
+        </div>
+
+        <div class="post-header">
+            <h3 id="post-header-content">Followers</h3>
+            <hr class="glass" width="100%" size="3" color="gray" >
+        </div>
+
+        <div class="posts" id="posts-container">
+            <h3 id="no-follower-reminder">No Followers Found</h3>
+        </div>
+
+        <div id="inboxModal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="close-inbox-modal">&times;</span>
+                <h3 id="inbox-title">Inbox</h3>
+                <ul id="inbox-list">
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>

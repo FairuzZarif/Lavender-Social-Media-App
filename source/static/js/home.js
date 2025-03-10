@@ -5,6 +5,12 @@ let currentPage = 1;
 
 document.addEventListener("DOMContentLoaded", function () {
     main();
+    document.getElementById('profile').addEventListener('click', function(){
+        window.location.href = `/authors/${encodeURIComponent(Cookies.get('id'))}`;
+    });
+    document.getElementById('following').addEventListener('click', function(){
+        window.location.href = `/authors/${encodeURIComponent(Cookies.get('id'))}/following`;
+    });
 });
 
 /**
@@ -266,7 +272,20 @@ async function fetchAndCreatePostsOnStream(min, max) {
         })
         .then(response => response.json())
         .then(data => {
-            createPublicPostElementByIndex(data, i);
+            const url = data.author
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Basic ' + credentials,
+                    'X-Original-Host': window.location.protocol + "//" + window.location.host + "/api/"
+                },
+            })
+            .then(response => response.json())
+            .then(responded => {
+                createPublicPostElementByIndex(data, i, responded.profileImage);
+            })
+
         });
     }
 }
@@ -296,7 +315,7 @@ function hideSpinnerElement(i) {
     spinnerElement.style.display = 'none';
 }
 
-async function createPublicPostElementByIndex(post, i) {
+async function createPublicPostElementByIndex(post, i, authorimg) {
     let isLiked = false;
     const staticUrls = document.getElementById('static-urls');
     const credentials = Cookies.get('credentials');
@@ -313,13 +332,27 @@ async function createPublicPostElementByIndex(post, i) {
     userInfo.classList.add('user-info');
 
     const userImg = document.createElement('img');
-    userImg.src = post.author.profileImage || staticUrls.dataset.userProfileImg;
-    userImg.width = 50;
-    userImg.height = 50;
-    userImg.style.borderRadius = '50%';
+    userImg.src = authorimg || staticUrls.dataset.defaultUserImg;
     userImg.onerror = function () {
         userImg.src = staticUrls.dataset.userProfileImg;
     };
+
+    userImg.width = 50;
+    userImg.height = 50;
+    userImg.style.borderRadius = '50%';
+    userImg.style.cursor = 'pointer';
+    userImg.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+    userImg.addEventListener('mouseenter', () => {
+        userImg.style.transform = 'scale(1.1)';
+        userImg.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+    });
+    userImg.addEventListener('mouseleave', () => {
+        userImg.style.transform = 'scale(1)';
+        userImg.style.boxShadow = 'none';
+    });
+    userImg.addEventListener('click', function(){
+        window.location.href = `/authors/${encodeURIComponent(post.author.id)}`;
+    });
 
     const userName = document.createElement('p');
     
@@ -530,8 +563,6 @@ function credsAuth() {
     const credentials = Cookies.get('credentials');
     
     if (credentials === null || credentials === undefined) {
-        console.log(credentials)
-        console.log("Hit the first login statement in CredsAuth")
         Cookies.remove('credentials');
         window.location.href = '/login';
         return;
@@ -549,17 +580,20 @@ function credsAuth() {
         },
     })
     .then(response => {
-        if (response.ok)
+        if (response.ok){
             return response.json();
-        else
-        console.log("Hit the second login statement in CredsAuth")
-        Cookies.remove('credentials');
-        window.location.href = '/login';
+        }
+        else {
+            Cookies.remove('credentials');
+            //window.location.href = '/login';
+        }
+    })
+    .then(data => {
+        document.cookie = `profileImage=${encodeURIComponent(data.profileImage)}; path=/; max-age=86400`;
     })
     .catch(error => {
         console.error('Error during authentication:', error);
         Cookies.remove('credentials');
-        console.log("Hit the third login statement in CredsAuth")
-        window.location.href = '/login';
+        //window.location.href = '/login';
     });
 }

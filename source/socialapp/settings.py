@@ -25,7 +25,7 @@ API_HOST = LOCAL_HOST + "api/"
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY", "default-secret-key")
-CSRF_TRUSTED_ORIGINS = ["http://localhost:8000", "http://127.0.0.1:8000"]  # Update as needed
+CSRF_TRUSTED_ORIGINS = ["http://localhost:8000", "http://127.0.0.1:8000", "https://2267-2605-fd00-4-1001-f816-3eff-fe7d-b637.ngrok-free.app"]  # Update as needed
 CSRF_COOKIE_HTTPONLY = False  # Allows JS to read the CSRF token
 
 # SECURITY WARNING: don't run with debug turned on in production!

@@ -1,0 +1,199 @@
+body {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+button{
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background-color: #666666; /* Mid-gray for the refresh button */
+    color: white;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #4d4d4d; /* Darker gray on hover */
+    transform: scale(1.05);
+}
+
+#cancel-username{
+    background-color: #413f3f;
+}
+
+#cancel-username:hover{
+    background-color: #666666;
+}
+
+/* Style for the header */
+header {
+    background-color: #333;  /* Dark background color */
+    padding: 10px 20px;      /* Add padding around the header */
+    position: sticky;        /* Make the header sticky at the top */
+    top: 0;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    z-index: 100;            /* Ensures it's on top of other content */
+}
+
+/* Style for the nav element */
+nav {
+    display: flex;            /* Use flexbox for aligning items */
+    justify-content: center;  /* Center items horizontally */
+    align-items: center;      /* Center items vertically */
+}
+
+/* Style for the unordered list (ul) inside the nav */
+nav ul {
+    display: flex;             /* Use flexbox to align list items horizontally */
+    list-style-type: none;     /* Remove default list styling (bullets) */
+    margin: 0;                 /* Remove default margin */
+    padding: 0;                /* Remove default padding */
+}
+
+/* Style for each list item (li) in the nav */
+nav ul li {
+    margin: 0 15px;            /* Add space between each list item */
+}
+
+/* Style for the links inside the nav */
+nav ul li a {
+    color: white;              /* Set text color to white */
+    text-decoration: none;     /* Remove underline */
+    font-size: 1.1rem;         /* Set font size */
+    font-weight: 500;          /* Make the font slightly bold */
+    transition: color 0.3s ease; /* Smooth transition for color change */
+}
+
+/* Hover effect for the navbar items */
+nav ul li a:hover {
+    color: #d1cdc7; /* Change text color on hover */
+}
+
+div a {
+    color: white;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #5d5c5a;
+    color: white;   
+    padding: 20px;
+    height: 200px;
+}
+
+.profile-header h1 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 10px 0;
+}
+
+.edit-container {
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.edit-container h4 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-bottom: -16px;
+}
+
+#app-username {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 50%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+}
+
+#app-github {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 27%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+}
+
+.avatar-edit {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    background-size:100% 100vh;
+    filter: brightness(70%)
+}
+
+.error-message {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: red;
+}
+
+.image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100px;
+    height: 100px;
+}
+
+.overlay-image {
+    position: absolute;
+    background-size:100% 100vh;
+    width: 30px; 
+    height: 30px; 
+    filter: brightness(90%);
+}
+
+.overlay-image:hover {
+    cursor: pointer;
+    border-radius: 50%;
+    filter: brightness(1);
+}
+
+#website-title:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 50%;
+    max-width: 600px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#avatar-upload {
+    display: none;
+}
+
+.responsive-img {
+    width: 5%;
+    height: auto;
+}
+
+#profile:hover{
+    cursor: pointer;
+}

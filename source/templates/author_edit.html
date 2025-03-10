@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    <head>
+        <title>Lavender</title>
+        <link rel="icon" type="image/png" href="{% static 'ico/favicon.ico' %}">
+        <link rel="stylesheet" href="{% static 'css/edit_profile_style.css' %}">
+        <meta charset="UTF-8">
+        <script src="{% static 'js/js.cookie.min.js' %}"></script>
+        <script src="{% static 'js/profile_edit.js' %}"></script>
+        <script src="{% static 'js/inbox.js' %}"></script>
+    </head>
+
+    <body>
+        <div id="static-urls"
+            data-user-profile-img="{% static 'img/default_avatar.png' %}">
+        </div>
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="/home">Home</a></li>
+                    <li><a id='profile'>Profile</a></li>
+                    <li><a id='following'>Following</a></li>
+                    <li id="inbox-button"><a>Inbox</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="profile-header">
+            <img id="avatar-preview" class="avatar-edit" src="{% static 'img/default_avatar.png' %}" alt="Avatar">
+            <div class="image-container">
+                <img id="upload-button" class="overlay-image" src="{% static 'img/upload.PNG' %}" alt="Upload">
+                <input type="file" id="avatar-upload" accept="image/*">
+            </div>
+        </div>
+
+        <div class="edit-container">
+            <p id="username-error" class="error-message"></p>
+            <input id="app-username" class="input-container" type="text" 
+                    placeholder="Enter New Display Name" 
+                    name="uname" 
+                    required>
+            <br>
+            <p id="github-error" class="error-message"></p>
+            <p>
+            https://github.com/
+                <input id="app-github" type="text" 
+                        placeholder="Github ID" 
+                        name="github" 
+                        required>
+            </p>
+            <br>
+            <button type="submit" id="update-username">Save</button>
+            <button id="cancel-username">Cancel</button>
+        </div>
+    </body>
+</html>

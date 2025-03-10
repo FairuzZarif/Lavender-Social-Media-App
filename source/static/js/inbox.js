@@ -13,9 +13,11 @@ function handleInbox(username, credentials) {
 
     let inboxMessagesList = [];
 
-    closeBtn.onclick = function() {
-        modal.style.display = "none";
-    };
+    if (closeBtn) {
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        };
+    }
 
     window.onclick = function(event) {
         if (event.target === modal)
@@ -35,12 +37,17 @@ function handleInbox(username, credentials) {
     .then(data => {
         if (data.data_displayed.length === 0) {
             const inboxTitle = document.getElementById("inbox-title");
-            inboxTitle.textContent = "There are no new follower requests yet.";
+            if (inboxTitle) {
+                inboxTitle.textContent = "There are no new follower requests yet.";
+            }
         }
         else {
             inboxButton.src = staticUrls.dataset.inboxImgNew;
             const inboxTitle = document.getElementById("inbox-title");
-            inboxTitle.textContent = "";
+            if (inboxTitle) {
+                inboxTitle.textContent = "";
+            }
+
             data.data_displayed.forEach(request => {
                 inboxMessagesList.push([request.id, request.profileImage]);
             });
@@ -48,8 +55,10 @@ function handleInbox(username, credentials) {
     });
 
     inboxButton.onclick = function() {
+        console.log(document.getElementById("inboxModal"));
         modal.style.display = "flex";
-        
+        modal.classList.add("show");
+        console.log(window.getComputedStyle(modal).display);
         const inboxList = document.getElementById("inbox-list");
         inboxList.classList.add("inbox-message-container");
         inboxList.innerHTML = "";

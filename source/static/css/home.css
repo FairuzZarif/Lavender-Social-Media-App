@@ -120,13 +120,6 @@ main {
     font-size: 1.2rem;
 }
 
-/* Footer */
-footer {
-    text-align: center;
-    background-color: #333333;
-    color: white;
-    padding: 1rem 0;
-}
 
 .edit-post-textarea-container {
     max-width: 590px;
@@ -468,7 +461,7 @@ select option {
 }
 
 #like-button {
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Segoe UI', sans-serif;
     color: lightskyblue;
 }
 
@@ -529,6 +522,10 @@ select option {
 #follow-button:hover {
     background-color: #4d4d4d; /* Slightly darker gray on hover */
     transform: scale(1.05);
+}
+
+#profile:hover, #following:hover{
+    cursor: pointer;
 }
 
 /* Media Queries for Font Size Adjustment */

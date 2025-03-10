@@ -13,12 +13,7 @@ import json
 import uuid
 from .schema_defs import *
 
-def HomeView(request):
-    return render(request, 'home.html')
-
-def LoginView(request):
-    return render(request, 'login.html')
-
+''' Everything under this is due for replacement '''
 def profile_view(request):
     return render(request, 'profile.html')
 
@@ -39,8 +34,8 @@ def MyPostsView(request):
     return render(request, 'my_posts.html', context)
 
 def logout_view(request):
-    logout(request)  # Logs out the user
-    return redirect('login')  # Redirects to the login page
+    logout(request) 
+    return redirect('login')
 
 def my_feed(request):
     # Fetch all posts as feed (replace this with filtered logic later)
@@ -64,3 +59,28 @@ def followers_page(request):
     }
 
     return render(request, 'follow_page.html', context)
+''' ONly UP to here'''
+
+
+def HomeView(request):
+    return render(request, 'home.html')
+
+def LoginView(request):
+    return render(request, 'login.html')
+
+
+def author(request, author_id):
+    return render(request, 'author.html')
+
+def author_followers(request, author_id):
+    return render(request, 'followers.html')
+
+def author_following(request, author_id):
+    return render(request, 'following.html')
+
+def author_edit(request):
+    return render(request, 'author_edit.html')
+
+def post(request, post_id):
+    return render(request, "post_detail.html", {'post_url': post_id})
+

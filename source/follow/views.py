@@ -95,6 +95,144 @@ def isFriend(userid_a, userid_b):
         and FollowerModel.objects.filter(actor = object, object = actor).exists()
     )
 
+class FollowingView(APIView):
+
+    http_method_names = ['get']
+    permission_classes = [IsAuthenticated]
+
+    @SchemaDefinitions.following_view_get
+    def get(self, request, actor_pk):
+        """
+        Get all following of actor_pk.
+        """
+        if is_remote_access(request):
+            return Response(
+                status = status.HTTP_403_FORBIDDEN,
+                data = {"error": "Remote access is forbidden."}
+            )
+        actor_id = LinkGenerator("aa", [actor_pk]).generate()
+        actor = get_object_or_404(AuthorModel, id = actor_id)
+        following = FollowerModel.objects.filter(actor = actor)
+        serializer = FollowerSerializer(following, many = True)
+        for data in serializer.data:
+            data["object"] = remove_kvpair(["username", "password", "lastGithubUpdate", "isVerified"], data["object"])
+        data = {
+            "type": "following",
+            "following": serializer.data
+        }
+        return Response(status = status.HTTP_200_OK, data = data)
+
+class FollowersView(APIView):
+
+    http_method_names = ['get']
+    permission_classes = [IsAuthenticated]
+
+    @SchemaDefinitions.followers_view_get
+    def get(self, request, object_pk):
+        """
+        Get all followers of object_pk.
+        """
+        object_id = LinkGenerator("aa", [object_pk]).generate()
+        object = get_object_or_404(AuthorModel, id = object_id)
+        followers = FollowerModel.objects.filter(object = object)
+        serializer = FollowerSerializer(followers, many = True)
+        response_data = []
+        for data in serializer.data:
+            author_data = remove_kvpair(
+                ["username", "password", "lastGithubUpdate", "isVerified"],
+                data["actor"]
+            )
+            response_data.append(author_data)
+        data = {
+            "type": "followers",
+            "followers": response_data
+        }
+        return Response(status = status.HTTP_200_OK, data = data)
+
+class FollowerRemoteView(APIView):
+
+    http_method_names = ['get']
+    permission_classes = [IsAuthenticated]
+
+    @SchemaDefinitions.follower_remote_view_get
+    def get(self, request, actor_pk, object_id):
+        """
+        Check if the actor_id is following the object_id, with identity verification.
+        """
+        if is_remote_access(request):
+            return Response(
+                status = status.HTTP_403_FORBIDDEN,
+                data = {"error": "Remote access is forbidden."}
+            )
+        if actor_pk != request.user.username:
+            return Response(status = status.HTTP_403_FORBIDDEN)
+        actor_id = LinkGenerator("aa", [actor_pk]).generate()
+        if not isFollowed(actor_id, object_id):
+            return Response(status = status.HTTP_404_NOT_FOUND)
+        return Response(status = status.HTTP_200_OK)
+
+class FollowerView(APIView):
+
+    http_method_names = ['get', 'put', 'delete']
+    permission_classes = [IsAuthenticated]
+
+    @SchemaDefinitions.follower_view_get
+    def get(self, request, object_pk, actor_id):
+        """
+        Check if the actor_id is following the object_pk, with identity verification.
+        """
+        object_id = LinkGenerator("aa", [object_pk]).generate()
+        if not isFollowed(actor_id, object_id):
+            return Response(status = status.HTTP_404_NOT_FOUND)
+        actor = get_object_or_404(AuthorModel, id = actor_id)
+        data = remove_kvpair(
+            ["username", "password", "lastGithubUpdate", "isVerified"],
+            AuthorSerializer(actor).data
+        )
+        return Response(status = status.HTTP_200_OK, data = data)
+
+    @SchemaDefinitions.follower_view_put
+    def put(self, request, object_pk, actor_id):
+        """
+        Add a follower, with identity verification.
+        """
+        if is_remote_access(request):
+            return Response(
+                status = status.HTTP_403_FORBIDDEN,
+                data = {"error": "Remote access is forbidden."}
+            )
+        if object_pk != request.user.username:
+            return Response(status = status.HTTP_403_FORBIDDEN)
+        object_id = LinkGenerator("aa", [object_pk]).generate()
+        actor = get_object_or_404(AuthorModel, id = actor_id)
+        object = get_object_or_404(AuthorModel, id = object_id)
+        serializer = FollowerSerializer(data = {}, partial = True)
+        if not serializer.is_valid():
+            return Response(status = status.HTTP_400_BAD_REQUEST, data = serializer.errors)
+        serializer.save(actor = actor, object = object)
+        return Response(status = status.HTTP_201_CREATED)
+
+    @SchemaDefinitions.follower_view_delete
+    def delete(self, request, object_pk, actor_id):
+        """
+        Remove a follower, with identity verification.
+        """
+        if is_remote_access(request):
+            return Response(
+                status = status.HTTP_403_FORBIDDEN,
+                data = {"error": "Remote access is forbidden."}
+            )
+        if object_pk != request.user.username:
+            return Response(status = status.HTTP_403_FORBIDDEN)
+        object_id = LinkGenerator("aa", [object_pk]).generate()
+        actor = get_object_or_404(AuthorModel, id = actor_id)
+        object = get_object_or_404(AuthorModel, id = object_id)
+        follow_request = FollowRequestModel.objects.filter(object = object, actor = actor)
+        if follow_request.exists():
+            follow_request.delete()
+        FollowerModel.objects.filter(actor = actor, object = object).delete()
+        return Response(status = status.HTTP_204_NO_CONTENT)
+
 class FollowRequestsObjectEnd(APIView):
 
     http_method_names = ['get']
