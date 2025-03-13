@@ -300,7 +300,7 @@ class InboxViewTest(APITestCase):
         response = self.client.post(self.url, body, **headers, format='json')
         self.assertEqual(response.status_code,status.HTTP_400_BAD_REQUEST)
 
-""" Need to add following view
+
 class FollowingViewTest(APITestCase):
     
     def setUp(self):
@@ -348,9 +348,7 @@ class FollowingViewTest(APITestCase):
         self.assertEqual(len(response.data['following']), 1)
         self.assertEqual(response.data['following'][0]['actor']['id'], 'http://testserver/api/authors/bob')
         self.assertEqual(response.data['following'][0]['object']['id'], 'http://testserver/api/authors/ana')
-"""
 
-""" Need to add followers view
 class FollowersViewTest(APITestCase):
     
     def setUp(self):
@@ -398,9 +396,7 @@ class FollowersViewTest(APITestCase):
         self.assertEqual(len(response.data['followers']), 1)
         self.assertEqual(response.data['followers'][0]['type'], 'author')
         self.assertEqual(response.data['followers'][0]['id'], 'http://testserver/api/authors/bob')
-"""
 
-""" Need to add follower remote view
 class FollowerViewTest(APITestCase):
     
     def setUp(self):
@@ -483,4 +479,3 @@ class FollowerViewTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         follower_models = FollowerModel.objects.all()
         self.assertEqual(len(follower_models), 0)
-"""

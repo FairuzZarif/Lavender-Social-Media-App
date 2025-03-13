@@ -1,6 +1,8 @@
 from django.urls import path, include, re_path
 from . import views
 from django.shortcuts import redirect
+from django.conf import settings
+from django.conf.urls.static import static
 
 app_name = "socialapp"
 urlpatterns = [
@@ -45,4 +47,4 @@ urlpatterns = [
         views.post,
         name = 'post'
     ),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
