@@ -17,7 +17,7 @@ import os, dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(".env", override=True)
-LOCAL_HOST = os.getenv("LOCAL_HOST")
+LOCAL_HOST = os.getenv("LOCAL_HOST", "http://127.0.0.1:8000/")
 API_HOST = LOCAL_HOST + "api/"
 
 # Quick-start development settings - unsuitable for production
@@ -25,7 +25,7 @@ API_HOST = LOCAL_HOST + "api/"
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY", "default-secret-key")
-CSRF_TRUSTED_ORIGINS = ["http://localhost:8000", "http://127.0.0.1:8000", "https://2267-2605-fd00-4-1001-f816-3eff-fe7d-b637.ngrok-free.app"]  # Update as needed
+CSRF_TRUSTED_ORIGINS = ["http://localhost:8000", "http://127.0.0.1:8000"]  # Update as needed
 CSRF_COOKIE_HTTPONLY = False  # Allows JS to read the CSRF token
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -127,10 +127,13 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3", 
-        "NAME": BASE_DIR / "db.sqlite3",  
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "lavender_db",
+        "USER": "test1",
+        "PASSWORD": "12345",
+        "HOST": "localhost",
+        "PORT": "5432",  }
     }
-}
 
 
 
@@ -179,7 +182,7 @@ STATIC_ROOT = BASE_DIR / 'static'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 
 # Content Security Policy
