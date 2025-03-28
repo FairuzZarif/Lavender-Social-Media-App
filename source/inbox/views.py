@@ -198,10 +198,12 @@ class Outbox:
     def follow(self):
         node = None
         for shared_node in self.shared_nodes:
-            if self.data["object"]["id"].startswith(shared_node.host):
+            if self.data["object"]["host"] == shared_node.host:
                 node = shared_node
+            
         if node == None:
             return
+
         self.departure(node.host, self.data["object"]["id"].split("/")[-1], node)
 
     def send(self):
@@ -222,7 +224,9 @@ class Outbox:
     def departure(self, host, author_serial, node):
         if not node.allowOut:
             return
+        
         url = f"{host}authors/{author_serial}/inbox"
+
         headers = {
             "X-Original-Host": str(self.request.build_absolute_uri("/")) + "api/",
             "Authorization": f"Basic {self.get_credential(node)}",
@@ -236,10 +240,12 @@ class Outbox:
     
     def takeoff(self, url, headers, data):
         try:
-            requests.post(url, headers = headers, data = data)
-        except:
-            return
-        
+            response = requests.post(url, headers=headers, data=data)
+            response.raise_for_status()  # Raise an exception for HTTP errors (4xx or 5xx)
+            print(f"Request successful, status code: {response.status_code}")
+        except requests.exceptions.RequestException as e:
+            print(f"Request failed: {e}")
+       
 def get_or_make_author(author_data):
     mstlst = ["type", "id", "host", "page"]
     for mst in mstlst:

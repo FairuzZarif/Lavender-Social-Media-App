@@ -1,0 +1,7 @@
+docker ps #lists the active docker processes
+
+docker compose exec <container name> <commands>
+
+docker cp distributedsocialmedia-socialapp-1:/source/db.sqlite3 ~/distributedsocialmedia/DistributedSocialMedia/source/db.sqlite3
+
+docker cp distributedsocialmedia-socialapp-1:/source/db.sqlite3 /mnt/c/Users/dricb/Desktop/DistributedSocialMedia/DistributedSocialMedia/source/db.sqlite3

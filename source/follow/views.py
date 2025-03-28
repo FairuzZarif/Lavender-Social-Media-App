@@ -288,7 +288,12 @@ class FollowRequestObjectEnd(APIView):
         if not aofr.exists():
             return Response(status = status.HTTP_404_NOT_FOUND)
         aofr.delete()
-        return Response(status = status.HTTP_200_OK)
+        
+        serializer = FollowerSerializer(data = {}, partial = True)
+        if not serializer.is_valid():
+            return Response(status = status.HTTP_400_BAD_REQUEST, data = serializer.errors)
+        serializer.save(actor = actor, object = object)
+        return Response(status = status.HTTP_201_CREATED)
         
     @SchemaDefinitions.follow_request_object_end_delete
     def delete(self, request, object_pk, actor_id):
@@ -378,10 +383,6 @@ class FollowRequestActorEnd(APIView):
         if not serializer.is_valid():
             return Response(status = status.HTTP_400_BAD_REQUEST, data = serializer.errors)
         serializer.save()
-        serializer = FollowerSerializer(data = {}, partial = True)
-        if not serializer.is_valid():
-            return Response(status = status.HTTP_400_BAD_REQUEST, data = serializer.errors)
-        serializer.save(actor = actor, object = object)
         return Response(status = status.HTTP_201_CREATED)
 
     @SchemaDefinitions.follow_request_actor_end_delete

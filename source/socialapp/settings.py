@@ -140,13 +140,10 @@ if os.environ.get("DB_Postgres") != None:
 """
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "lavender_db",
-        "USER": "test1",
-        "PASSWORD": "12345",
-        "HOST": "localhost",
-        "PORT": "5432",  }
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",  # Uses a file-based SQLite database
     }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
