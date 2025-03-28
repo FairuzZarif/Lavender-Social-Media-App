@@ -7,9 +7,9 @@
 <br/>Jiahao Li
 
 # Lavender Project - Local Setup & Test Instructions
-### Find our API documentation [here](https://[2605:fd00:4:1001:f816:3eff:fe7d:b637]/api/docs/).
+### Find our API documentation [here][(https://[2605:fd00:4:1001:f816:3eff:fe7d:b637]/api/docs/)](http://%5B2605:fd00:4:1001:f816:3eff:fe7d:b637%5D/api/docs/).
 
-### Running Instance Available [here](https://[2605:fd00:4:1001:f816:3eff:fe7d:b637]/).
+### Running Instance Available [here][(https://[2605:fd00:4:1001:f816:3eff:fe7d:b637]/)](http://%5B2605:fd00:4:1001:f816:3eff:fe7d:b637%5D/).
 
 ---
 ## **Steps to run locally**
