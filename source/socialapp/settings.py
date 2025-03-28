@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 from dotenv import load_dotenv
 from pathlib import Path
-import os, dj_database_url
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -35,7 +35,7 @@ ALLOWED_HOSTS = ['*']
 DJANGO_API_URL = os.getenv("http://localhost:8000", "http://127.0.0.1:8000")
 
 # Enable secure cookies
-SESSION_COOKIE_SECURE = True  # Ensures cookie is only sent over HTTPS
+SESSION_COOKIE_SECURE = False  # Ensures cookie is only sent over HTTPS
 
 # Ensure the cookie is HttpOnly
 SESSION_COOKIE_HTTPONLY = True  # Makes the session cookie inaccessible to JavaScript
@@ -125,6 +125,19 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+"""
+if os.environ.get("DB_Postgres") != None:
+    DATABASES = {
+        'default': {
+            'ENGINE': os.environ.get('DB_ENGINE', 'django.db.backends.postgresql'),  # default to PostgreSQL
+            'NAME': os.environ.get('DB_NAME', 'default_db_name'),  # default database name
+            'USER': os.environ.get('DB_USER', 'default_user'),  # default user
+            'PASSWORD': os.environ.get('DB_PASSWORD', 'default_password'),  # default password
+            'HOST': os.environ.get('DB_HOST', 'localhost'),  # default host
+            'PORT': os.environ.get('DB_PORT', '5432'),  # default PostgreSQL port
+        }
+    }
+"""
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -134,8 +147,6 @@ DATABASES = {
         "HOST": "localhost",
         "PORT": "5432",  }
     }
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

@@ -1,0 +1,33 @@
+---
+services:
+  socialapp:
+    image: socialapp:latest
+    build: ./source
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    networks:
+      - ip6net
+
+
+  caddy:
+    image: caddy:latest
+    container_name: caddy
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - socialapp
+    volumes:
+      - ./source/Caddyfile:/etc/caddy/Caddyfile
+    networks:
+      - ip6net
+
+networks:
+  ip6net:
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: 2001:db8::/64
