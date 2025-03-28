@@ -6,11 +6,11 @@
 <br/>Jaden Huang
 <br/>Jiahao Li
 
+# Link to running instance and api documentation:
+### http://[2605:fd00:4:1001:f816:3eff:fe7d:b637]/api/docs/
+### http://[2605:fd00:4:1001:f816:3eff:fe7d:b637]/
+
 # Lavender Project - Local Setup & Test Instructions
-### Find our API documentation [here][(https://[2605:fd00:4:1001:f816:3eff:fe7d:b637]/api/docs/)](http://%5B2605:fd00:4:1001:f816:3eff:fe7d:b637%5D/api/docs/).
-
-### Running Instance Available [here][(https://[2605:fd00:4:1001:f816:3eff:fe7d:b637]/)](http://%5B2605:fd00:4:1001:f816:3eff:fe7d:b637%5D/).
-
 ---
 ## **Steps to run locally**
 1. Initialize a venv envrionment with "python -m venv venv"
