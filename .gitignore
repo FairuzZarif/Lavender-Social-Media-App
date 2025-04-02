@@ -334,3 +334,12 @@ staticfiles/
 # Ignore media files
 /media/
 images/
+source/Caddyfile
+compose.yml
+compose.yml
+source/Caddyfile
+source/test_results.txt
+compose.yml
+source/Caddyfile
+source/test.py
+source/Caddyfile

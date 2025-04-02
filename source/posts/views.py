@@ -80,10 +80,12 @@ def standardize_post_image_name(image_type):
     """
     return fp_post_image + f"/{uuid.uuid4()}.{image_type}"
 
+
 class PostsView(APIView):
 
     http_method_names = ['get', 'post']
     permission_classes = [IsAuthenticated]
+
     @SchemaDefinitions.posts_view_get
     def get(self, request, author_pk):
         """
@@ -146,6 +148,7 @@ class PostsView(APIView):
         return Response(status = status.HTTP_201_CREATED, data = data)
 
 class PostView(APIView):
+
     http_method_names = ['get', 'put', 'delete']
     permission_classes = [IsAuthenticated]
 
@@ -276,7 +279,7 @@ class PostImageView(APIView):
         if not data:
             return Response(status = status.HTTP_404_NOT_FOUND)
         return FileResponse(open(data, 'rb'))
-    
+
 class APCLJsonGenerator:
     def __init__(self, request, **kwargs):
         self.authors_page = 1

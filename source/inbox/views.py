@@ -14,6 +14,9 @@ import uuid
 import requests
 import threading
 
+local_host = settings.LOCAL_HOST
+api_host = settings.API_HOST
+
 class InboxView(APIView):
 
     http_method_names = ['post']

@@ -13,54 +13,6 @@ import json
 import uuid
 from .schema_defs import *
 
-''' Everything under this is due for replacement '''
-def profile_view(request):
-    return render(request, 'profile.html')
-
-def MyPostsView(request):
-    try:
-        # Assuming `displayName` in Author corresponds to `username` of the logged-in user
-        author = Author.objects.get(displayName=request.user.username)
-    except Author.DoesNotExist:
-        # Return an empty list if no corresponding Author is found
-        return render(request, 'my_posts.html', {'posts': []})
-
-    # Fetch all posts by this author
-    user_posts = Post.objects.filter(author=author).order_by('-published')
-
-    context = {
-        'posts': user_posts,
-    }
-    return render(request, 'my_posts.html', context)
-
-def logout_view(request):
-    logout(request) 
-    return redirect('login')
-
-def my_feed(request):
-    # Fetch all posts as feed (replace this with filtered logic later)
-    feed_posts = Post.objects.all().order_by('-published')  # Add your logic here
-    return render(request, 'my_feed.html', {'feed_posts': feed_posts})
-
-def followers_page(request):
-    # Simulating dummy authors and followers for now
-    current_author = Author.objects.filter(displayName=request.user.username).first()
-    
-    if not current_author:
-        return render(request, 'follow_page.html', {'followed_users': [], 'followers': []})
-    
-    # Replace these dummy lists with actual queries
-    followed_users = Author.objects.exclude(displayName=current_author.displayName)[:5]  # Dummy data
-    followers = Author.objects.exclude(displayName=current_author.displayName).order_by('-displayName')[:5]  # Dummy data
-
-    context = {
-        'followed_users': followed_users,
-        'followers': followers,
-    }
-
-    return render(request, 'follow_page.html', context)
-''' ONly UP to here'''
-
 
 def HomeView(request):
     return render(request, 'home.html')
@@ -83,4 +35,3 @@ def author_edit(request):
 
 def post(request, post_id):
     return render(request, "post_detail.html", {'post_url': post_id})
-

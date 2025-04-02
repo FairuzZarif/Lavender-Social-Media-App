@@ -272,7 +272,15 @@ async function fetchAndCreatePostsOnStream(min, max) {
         })
         .then(response => response.json())
         .then(data => {
-            const url = data.author
+            let url; 
+    
+            if (data.author.startsWith(window.location.protocol + "//" + window.location.host + "/api/")) {
+                url = data.author;
+            } else {
+                url = `/api/authors/${data.author}`;
+                console.log(url)
+            }
+    
             fetch(url, {
                 method: 'GET',
                 headers: {
@@ -285,7 +293,6 @@ async function fetchAndCreatePostsOnStream(min, max) {
             .then(responded => {
                 createPublicPostElementByIndex(data, i, responded.profileImage);
             })
-
         });
     }
 }
@@ -356,6 +363,8 @@ async function createPublicPostElementByIndex(post, i, authorimg) {
 
     const userName = document.createElement('p');
     
+    console.log(post)
+
     const url = post.author;
     const match = url.match(/\/authors\/([^\/]+)/);
     const authorName = match ? match[1] : null;

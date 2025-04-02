@@ -14,12 +14,7 @@ urlpatterns = [
     path('login/', views.LoginView, name='login'),
 
     path('home/', views.HomeView, name='home'),
-    path('profile/', views.profile_view, name='profile'),
-    path('posts/', views.MyPostsView, name='my-posts'),
-    path('logout/', views.logout_view, name='logout'),  # Added logout route
-    path('feed/', views.my_feed, name='my-feed'),
-    path('follow/', views.followers_page, name='followers-page'),
-    
+     
     re_path(
         r'^authors/(?P<author_id>(http|https)://[^\/]+/?[^\/]*/api/authors/[^\/]+)$',
         views.author,

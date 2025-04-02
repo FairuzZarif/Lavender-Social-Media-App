@@ -18,6 +18,8 @@ from .serializers import *
 from django.core.files.storage import default_storage #type: ignore
 from django.core.files.base import ContentFile # type: ignore
 from rest_framework.utils.serializer_helpers import ReturnDict, ReturnList #type: ignore
+import re
+import urllib.parse
 import uuid, os, requests #type: ignore
 import base64
 from core.schema_defs import *
@@ -72,6 +74,10 @@ class AuthorView(APIView):
     http_method_names = ['get', 'post', 'put']
     permission_classes = [IsAuthenticated]
 
+    def get_credential(self, node):
+        ori = node.outUsername + ":" + node.outPassword
+        return base64.b64encode(ori.encode()).decode()
+    
     @SchemaDefinitions.author_view_get
     def get(self, request, **kwargs):
         """
@@ -79,6 +85,53 @@ class AuthorView(APIView):
         """
         author_pk = kwargs.get("author_pk", None)
         author_id = kwargs.get("author_id", None)
+        
+        request_path = request.get_full_path()  # Get full request path
+        print(request_path)
+        match = re.search(r'(http[s]?://[^\s]+)', request_path)
+
+        if match:
+            extracted_url = match.group(1)  # Raw encoded URL
+            decoded_url = urllib.parse.unquote(extracted_url)  # Decode URL encoding
+            
+            shared_nodes = ShareNodeModel.objects.all()
+            for shared_node in shared_nodes:
+                if decoded_url.startswith(shared_node.host):  # Check if decoded_url starts with shared_node.host
+                    print("Match found:", shared_node.host)
+                    
+                    if not shared_node.allowOut:
+                        return
+                    
+                    url = f"{decoded_url}"
+
+                    headers = {
+                        "X-Original-Host": str(self.request.build_absolute_uri("/")) + "api/",
+                        "Authorization": f"Basic {self.get_credential(shared_node)}",
+                        "Content-Type": "application/json"
+                    }
+
+                    try:
+                        response = requests.get(url, headers=headers)
+                        print(f"Request successful, status code: {response.status_code}")
+                        
+                        # Ensure the response is a valid JSON object
+                        if response.status_code == 200:
+                            response_data = response.json()  # Parse the JSON response
+
+                            # Check if the expected data structure is present
+                            if isinstance(response_data, dict):
+                                return Response(data=response_data, status=status.HTTP_200_OK)
+                            else:
+                                print(f"Unexpected response structure: {response_data}")
+                                return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                        else:
+                            print(f"Failed to fetch data, status code: {response.status_code}")
+                            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+                    except requests.exceptions.RequestException as e:
+                        print(f"Request failed: {e}")
+                        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                    
         if not author_id:
             author_id = LinkGenerator("aa", [author_pk]).generate()
         author = get_object_or_404(AuthorModel, id = author_id)
@@ -160,11 +213,15 @@ class StreamView(APIView):
         )
         posts = []
         if not serializer.data:
+            print("hit here")
             return Response(status = status.HTTP_200_OK, data = posts)
         for data in serializer.data:
+            print(author_id)
             if stream_legality_verification(author_id, data):
+                print("starting handling")
                 handle_post_data(author_id, data)
                 posts.append(data)
+                print(posts)
         return Response(status = status.HTTP_200_OK, data = posts)
 
 def stream_legality_verification(author_id, data):
@@ -198,6 +255,7 @@ class StreamLengthView(APIView):
                 status = status.HTTP_403_FORBIDDEN,
                 data = {"error": "Remote access is forbidden."}
             )
+        print("in here")
         serializer = PostSerializer(
             PostModel.objects.exclude(visibility = "DELETED").order_by('-published'),
             many = True
