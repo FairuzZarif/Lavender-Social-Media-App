@@ -23,3 +23,6 @@
 1. Follow steps 1-3 for local, except change the environment key in .env to LOCAL_HOST="http://testserver/"
 2. cd into the source directory, run "python manage.py makemigrations", "python manage.py migrate" if you haven't
 3. Launch the tests with "python manage.py test"
+
+## **APP OVERVIEW/AD VIDEO LINK**
+
